@@ -43,8 +43,8 @@ function chk_firewall(){
 		service iptables save
 		service iptables restart
 	else
-		firewall-cmd --zone=public --add-port=80/tcp --permanent 
-		firewall-cmd --zone=public --add-port=443/tcp --permanent 
+		firewall-cmd --zone=public --add-port=80/tcp --permanent
+		firewall-cmd --zone=public --add-port=443/tcp --permanent
 		firewall-cmd --reload
 	fi
 }
@@ -103,7 +103,7 @@ function CompileInstall(){
 	#创建用户和用户组
 	groupadd www
 	useradd -M -g www www -s /sbin/nologin
-	
+
 	#rm -rf /usr/local/pcre-8.39.tar.gz
 	#rm -rf /usr/local/zlib-1.2.11.tar.gz
 	#rm -rf /usr/local/openssl-1.1.0h.tar.gz
@@ -159,9 +159,9 @@ function CompileInstall(){
 
 	#复制配置文件
 	mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.bak
-	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
+	wget --no-check-certificate https://raw.githubusercontent.com/tianfanfan/nginx-cdn/master/nginx.conf -P /usr/local/nginx/conf/
 	#日志分割
-	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
+	wget --no-check-certificate https://raw.githubusercontent.com/tianfanfan/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
 	mkdir -p /usr/local/nginx/conf/vhost
 	mkdir -p /usr/local/nginx/conf/cdn
 	/usr/local/nginx/sbin/nginx
@@ -190,7 +190,7 @@ function BinaryInstall(){
 	cd /usr/local && tar -zxvf nginx.tar.gz
 
 	#日志自动分割
-	wget --no-check-certificate https://raw.githubusercontent.com/helloxz/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
+	wget --no-check-certificate https://raw.githubusercontent.com/tianfanfan/nginx-cdn/master/etc/logrotate.d/nginx -P /etc/logrotate.d/
 
 	#环境变量
 	echo "export PATH=$PATH:/usr/local/nginx/sbin" >> /etc/profile
@@ -211,7 +211,7 @@ function uninstall(){
 	# 杀掉nginx进程
 	pkill nginx
 	#删除www用户
-	userdel www && groupdel www 
+	userdel www && groupdel www
 	#备份一下配置
 	cp -a /usr/local/nginx/conf/vhost /home/vhost_bak
 	#删除目录
@@ -233,7 +233,7 @@ echo "q) 退出！"
 read -p ":" istype
 
 case $istype in
-    1) 
+    1)
     	check_os
     	get_ip
     	chk_firewall
@@ -244,7 +244,7 @@ case $istype in
     	#安装nginx
     	CompileInstall
     ;;
-    2) 
+    2)
     	check_os
     	get_ip
     	chk_firewall
@@ -252,14 +252,14 @@ case $istype in
     	jemalloc
     	BinaryInstall
     ;;
-    3) 
+    3)
     	#执行卸载函数
     	uninstall
     	#删除端口
     	DelPort
     	echo 'Uninstall complete.'
     ;;
-    q) 
+    q)
     	exit
     ;;
     *) echo '参数错误！'
